@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class GridInput : MonoBehaviour
+public class GridMouseInput : MonoBehaviour
 {
     private Grid grid;
     private GridExtension gridExtension;

@@ -17,7 +17,7 @@ public class GridExtension : MonoBehaviour
         {
             return gridCells[(int) coordinates.x, (int) coordinates.y];
         }
-        catch (IndexOutOfRangeException exception)
+        catch
         {
             return null;
         }
