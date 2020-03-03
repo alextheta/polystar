@@ -4,9 +4,10 @@ using UnityEngine;
 [RequireComponent(typeof(Grid))]
 public class GridExtension : MonoBehaviour
 {
+    public Vector2 gridSize;
+    
     [SerializeField] private GameObject gridObject;
-    [SerializeField] private Vector2 gridSize;
-
+    
     private Grid grid;
     private GridCell[,] gridCells;
 
@@ -29,13 +30,21 @@ public class GridExtension : MonoBehaviour
 
     private void Start()
     {
+        InitGrid();
+    }
+
+    private void InitGrid()
+    {
+        foreach (Transform child in transform)
+            Destroy(child.gameObject);
+        
         gridCells = new GridCell[(int) gridSize.x, (int) gridSize.y];
         
         for (int x = 0; x < gridSize.x; x++)
         for (int y = 0; y < gridSize.y; y++)
             gridCells[x, y] = CreateCellObject(x, y);
     }
-
+    
     private GridCell CreateCellObject(int x, int y)
     {
         GameObject cellObject = Instantiate(gridObject, transform);
