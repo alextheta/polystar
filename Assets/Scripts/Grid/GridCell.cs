@@ -9,6 +9,27 @@ public class GridCell : MonoBehaviour
         Start,
         End
     };
-    
-    public CellType cellType;
+
+    private GridExtension gridExtension;
+    private CellType cellType;
+    private SpriteRenderer spriteRenderer;
+
+    public void SetCellType(CellType type)
+    {
+        cellType = type;
+        spriteRenderer.color = gridExtension.GetCellTypeColor(cellType);
+
+        gridExtension.RegisterSpecialCell(this);
+    }
+
+    public CellType GetCellType()
+    {
+        return cellType;
+    }
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        gridExtension = FindObjectOfType<GridExtension>();
+    }
 }
