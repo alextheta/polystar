@@ -13,6 +13,16 @@ public class GridInputController : MonoBehaviour
     private const int MouseButtonLeft = 0;
     private const int MouseButtonRight = 1;
 
+    public void ShowCkeckedCellsToggle(bool show)
+    {
+        pathfindController.showCheckedCells = show;
+    }
+    
+    public void FindPathButtonPressed()
+    {
+        pathfindController.Pathfind();
+    }
+    
     private void Awake()
     {
         gridExtension = GetComponent<GridExtension>();

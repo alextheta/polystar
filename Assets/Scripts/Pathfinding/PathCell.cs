@@ -2,6 +2,7 @@
 
 public class PathCell : MonoBehaviour
 {
+    public int x, y;
     public PathCell previousCell;
     public int gValue;
     public int hValue;
@@ -32,7 +33,9 @@ public class PathCell : MonoBehaviour
 
     public void Reset()
     {
-        cellType = CellType.Empty;
+        Color cellColor = PathfindController.GetCellColorByType(Type);
+        GetComponent<GridCell>().SetColor(cellColor);
         previousCell = null;
+        gValue = hValue = 0;
     }
 }
