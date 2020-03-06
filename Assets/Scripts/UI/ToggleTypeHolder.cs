@@ -2,5 +2,5 @@
 
 public class ToggleTypeHolder : MonoBehaviour
 {
-    public GridCell.CellType cellType;
+    public PathCell.CellType cellType;
 }

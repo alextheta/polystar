@@ -425,7 +425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   edgeActivationDistance: 10
   cameraMoveSpeed: 8
-  cameraResizeSpeed: 15
+  cameraResizeSpeed: 20
   cameraSizeBounds: {x: 3, y: 40}
 --- !u!20 &519420031
 Camera:
@@ -1113,6 +1113,7 @@ GameObject:
   - component: {fileID: 1427311015}
   - component: {fileID: 1427311016}
   - component: {fileID: 1427311017}
+  - component: {fileID: 1427311018}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -1159,8 +1160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridSize: {x: 50, y: 50}
-  grid: {fileID: 0}
-  gridObject: {fileID: 7634977805889346043, guid: f49a8c36ac6531d49846601ad1ecfca8,
+  cellObject: {fileID: 7634977805889346043, guid: f49a8c36ac6531d49846601ad1ecfca8,
     type: 3}
 --- !u!114 &1427311017
 MonoBehaviour:
@@ -1175,6 +1175,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellTypeToggleGroup: {fileID: 815946166}
+--- !u!114 &1427311018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427311013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2983295c117ee014dad96f6ed0e7251f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1602260440
 GameObject:
   m_ObjectHideFlags: 0
