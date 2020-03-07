@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 [RequireComponent(typeof(GridExtension))]
 public class PathfindController : MonoBehaviour
@@ -9,8 +11,8 @@ public class PathfindController : MonoBehaviour
     public bool showCheckedCells;
     private GridExtension gridExtension;
     private PathCell[,] gridPathCells;
-    private List<PathCell> openCells;
-    private List<PathCell> closedCells;
+    private HashSet<PathCell> openCells;
+    private HashSet<PathCell> closedCells;
     private PathCell startCell;
     private PathCell endCell;
 
@@ -38,7 +40,6 @@ public class PathfindController : MonoBehaviour
 
     private PathCell StartCell
     {
-        get => startCell;
         set
         {
             if (startCell)
@@ -49,7 +50,6 @@ public class PathfindController : MonoBehaviour
 
     private PathCell EndCell
     {
-        get => endCell;
         set
         {
             if (endCell)
@@ -88,6 +88,9 @@ public class PathfindController : MonoBehaviour
         }
 
         ResetGrid();
+        
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
 
         openCells.Add(startCell);
         bool pathFound = false;
@@ -108,11 +111,15 @@ public class PathfindController : MonoBehaviour
 
             ProcessNeighbors(currentCell);
         }
+        
+        stopwatch.Stop();
 
         if (pathFound)
             Debug.Log("Path found");
         else
             Debug.Log("Path not found");
+        
+        Debug.Log("Elapsed time: " + stopwatch.Elapsed);
     }
 
     public void ResetGrid()
@@ -120,8 +127,8 @@ public class PathfindController : MonoBehaviour
         foreach (PathCell pathCell in gridPathCells)
             pathCell.Reset();
 
-        openCells = new List<PathCell>();
-        closedCells = new List<PathCell>();
+        openCells = new HashSet<PathCell>();
+        closedCells = new HashSet<PathCell>();
     }
 
     private void Awake()
@@ -142,7 +149,7 @@ public class PathfindController : MonoBehaviour
         }
     }
 
-    private PathCell GetLowestValueCell(List<PathCell> list)
+    private PathCell GetLowestValueCell(HashSet<PathCell> list)
     {
         PathCell result = list.First();
         foreach (PathCell cell in list)
