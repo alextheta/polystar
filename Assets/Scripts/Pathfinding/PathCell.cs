@@ -9,7 +9,7 @@ public class PathCell : MonoBehaviour
     public int fValue => gValue + hValue;
 
     private PathfindController pathfindController;
-    private GridCell gridCell;
+    public GridCell gridCell;
 
     public enum CellType
     {

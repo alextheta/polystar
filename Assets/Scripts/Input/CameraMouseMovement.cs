@@ -22,10 +22,12 @@ public class CameraMouseMovement : MonoBehaviour
         Vector2 center = new Vector2(gridExtension.gridSize.x / 2.0f * gridExtension.cellSize.x,
             gridExtension.gridSize.y / 2.0f * gridExtension.cellSize.y);
 
-        worldBounds = new Bounds();
-        worldBounds.min = Vector2.zero;
-        worldBounds.max = new Vector2(gridExtension.gridSize.x * gridExtension.cellSize.x,
-            gridExtension.gridSize.y * gridExtension.cellSize.y);
+        worldBounds = new Bounds
+        {
+            min = Vector2.zero,
+            max = new Vector2(gridExtension.gridSize.x * gridExtension.cellSize.x,
+                              gridExtension.gridSize.y * gridExtension.cellSize.y)
+        };
 
         transform.position = new Vector3(center.x, center.y, transform.position.z);
     }

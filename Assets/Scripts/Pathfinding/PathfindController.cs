@@ -172,7 +172,7 @@ public class PathfindController : MonoBehaviour
                 PathCell neighborCell = gridPathCells[i, j];
 
                 if (showCheckedCells && neighborCell.Type == PathCell.CellType.Empty)
-                    neighborCell.GetComponent<GridCell>().SetColor(CheckedCellColor);
+                    neighborCell.gridCell.SetColor(CheckedCellColor);
 
                 if (neighborCell.Type == PathCell.CellType.Solid
                     || (i == cell.x && j == cell.y)
@@ -220,7 +220,7 @@ public class PathfindController : MonoBehaviour
         while (currentCell != startCell)
         {
             if (currentCell.Type == PathCell.CellType.Empty)
-                currentCell.GetComponent<GridCell>().SetColor(PathCellColor);
+                currentCell.gridCell.SetColor(PathCellColor);
 
             currentCell = currentCell.previousCell;
         }

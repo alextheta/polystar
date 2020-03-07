@@ -42,10 +42,10 @@ public class GridInputController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(MouseButtonLeft) && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButton(MouseButtonLeft) && !EventSystem.current.IsPointerOverGameObject())
             UpdateCellType();
 
-        if (Input.GetMouseButtonDown(MouseButtonRight) && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButton(MouseButtonRight) && !EventSystem.current.IsPointerOverGameObject())
             ResetCellType();
     }
 
