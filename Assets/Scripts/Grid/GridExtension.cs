@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Grid))]
 public class GridExtension : MonoBehaviour
@@ -11,7 +10,7 @@ public class GridExtension : MonoBehaviour
 
     private Grid grid;
     private GridCell[,] gridCells;
-    
+
     public GridCell GetCell(int x, int y)
     {
         try
@@ -35,7 +34,7 @@ public class GridExtension : MonoBehaviour
         grid = GetComponent<Grid>();
         InitGrid();
     }
-    
+
     private void InitGrid()
     {
         foreach (Transform child in transform)

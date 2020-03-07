@@ -3,12 +3,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(GridExtension))]
+[RequireComponent(typeof(PathfindController))]
 public class GridInputController : MonoBehaviour
 {
     [SerializeField] private ToggleGroup cellTypeToggleGroup;
     private GridExtension gridExtension;
     private PathfindController pathfindController;
     private Camera mainCamera;
+    private bool pathFindDone;
 
     private const int MouseButtonLeft = 0;
     private const int MouseButtonRight = 1;
@@ -17,17 +20,24 @@ public class GridInputController : MonoBehaviour
     {
         pathfindController.showCheckedCells = show;
     }
-    
+
+    public void AllowDiagonalMove(bool allow)
+    {
+        pathfindController.allowDiagonalMove = allow;
+    }
+
     public void FindPathButtonPressed()
     {
         pathfindController.Pathfind();
+        pathFindDone = true;
     }
-    
+
     private void Awake()
     {
         gridExtension = GetComponent<GridExtension>();
         pathfindController = GetComponent<PathfindController>();
         mainCamera = Camera.main;
+        pathFindDone = false;
     }
 
     private void Update()
@@ -47,6 +57,7 @@ public class GridInputController : MonoBehaviour
 
     private void UpdateCellType()
     {
+        ResetGrid();
         GridCell cell = GetCellOnMouse();
 
         if (!cell)
@@ -61,9 +72,19 @@ public class GridInputController : MonoBehaviour
 
     private void ResetCellType()
     {
+        ResetGrid();
         GridCell cell = GetCellOnMouse();
         PathCell pathCell = cell.GetComponent<PathCell>();
 
         pathfindController.SetCellType(pathCell, PathCell.CellType.Empty);
+    }
+
+    private void ResetGrid()
+    {
+        if (pathFindDone)
+        {
+            pathFindDone = false;
+            pathfindController.ResetGrid();
+        }
     }
 }

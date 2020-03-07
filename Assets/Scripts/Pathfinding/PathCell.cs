@@ -9,6 +9,7 @@ public class PathCell : MonoBehaviour
     public int fValue => gValue + hValue;
 
     private PathfindController pathfindController;
+    private GridCell gridCell;
 
     public enum CellType
     {
@@ -27,15 +28,20 @@ public class PathCell : MonoBehaviour
         {
             cellType = value;
             Color cellColor = PathfindController.GetCellColorByType(value);
-            GetComponent<GridCell>().SetColor(cellColor);
+            gridCell.SetColor(cellColor);
         }
     }
 
     public void Reset()
     {
         Color cellColor = PathfindController.GetCellColorByType(Type);
-        GetComponent<GridCell>().SetColor(cellColor);
+        gridCell.SetColor(cellColor);
         previousCell = null;
         gValue = hValue = 0;
+    }
+
+    private void Awake()
+    {
+        gridCell = GetComponent<GridCell>();
     }
 }

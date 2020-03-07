@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof(GridExtension))]
 public class PathfindController : MonoBehaviour
 {
+    public bool allowDiagonalMove;
     public bool showCheckedCells;
     private GridExtension gridExtension;
     private PathCell[,] gridPathCells;
@@ -40,7 +41,7 @@ public class PathfindController : MonoBehaviour
         get => startCell;
         set
         {
-            if (startCell != null)
+            if (startCell)
                 startCell.Type = PathCell.CellType.Empty;
             startCell = value;
         }
@@ -51,7 +52,7 @@ public class PathfindController : MonoBehaviour
         get => endCell;
         set
         {
-            if (endCell != null)
+            if (endCell)
                 endCell.Type = PathCell.CellType.Empty;
             endCell = value;
         }
@@ -114,6 +115,15 @@ public class PathfindController : MonoBehaviour
             Debug.Log("Path not found");
     }
 
+    public void ResetGrid()
+    {
+        foreach (PathCell pathCell in gridPathCells)
+            pathCell.Reset();
+
+        openCells = new List<PathCell>();
+        closedCells = new List<PathCell>();
+    }
+
     private void Awake()
     {
         gridExtension = GetComponent<GridExtension>();
@@ -147,16 +157,19 @@ public class PathfindController : MonoBehaviour
         for (int i = cell.x - 1; i <= cell.x + 1; i++)
         for (int j = cell.y - 1; j <= cell.y + 1; j++)
         {
-            if (gridExtension.GetCell(i, j) != null)
+            if (!allowDiagonalMove && cell.x != i && cell.y != j)
+                continue;
+
+            if (gridExtension.GetCell(i, j))
             {
                 PathCell neighborCell = gridPathCells[i, j];
-                
+
                 if (showCheckedCells && neighborCell.Type == PathCell.CellType.Empty)
                     neighborCell.GetComponent<GridCell>().SetColor(CheckedCellColor);
 
-                if (neighborCell.Type == PathCell.CellType.Solid ||
-                    ReferenceEquals(neighborCell, cell) ||
-                    closedCells.Contains(neighborCell))
+                if (neighborCell.Type == PathCell.CellType.Solid
+                    || (i == cell.x && j == cell.y)
+                    || closedCells.Contains(neighborCell))
                     continue;
 
                 if (openCells.Contains(neighborCell))
@@ -181,7 +194,7 @@ public class PathfindController : MonoBehaviour
     {
         int localGValue = CalculateHValue(previousCell, cell) > HValueMultiplier ? GValueFar : GValueNear;
         int totalNewGValue = previousCell.gValue + localGValue;
-        if (cell.gValue < totalNewGValue)
+        if (cell.gValue > totalNewGValue)
         {
             cell.gValue = totalNewGValue;
             cell.previousCell = previousCell;
@@ -204,14 +217,5 @@ public class PathfindController : MonoBehaviour
 
             currentCell = currentCell.previousCell;
         }
-    }
-
-    private void ResetGrid()
-    {
-        foreach (PathCell pathCell in gridPathCells)
-            pathCell.Reset();
-
-        openCells = new List<PathCell>();
-        closedCells = new List<PathCell>();
     }
 }
