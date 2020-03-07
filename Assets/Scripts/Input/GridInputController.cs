@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(GridExtension))]
 [RequireComponent(typeof(PathfindController))]
+[RequireComponent(typeof(GridSavingController))]
 public class GridInputController : MonoBehaviour
 {
     [SerializeField] private ToggleGroup cellTypeToggleGroup;
     private GridExtension gridExtension;
     private PathfindController pathfindController;
+    private GridSavingController gridSavingController;
     private Camera mainCamera;
     private bool pathFindDone;
 
@@ -36,6 +38,7 @@ public class GridInputController : MonoBehaviour
     {
         gridExtension = GetComponent<GridExtension>();
         pathfindController = GetComponent<PathfindController>();
+        gridSavingController = GetComponent<GridSavingController>();
         mainCamera = Camera.main;
         pathFindDone = false;
     }
@@ -43,10 +46,10 @@ public class GridInputController : MonoBehaviour
     private void Update()
     {
         if (Input.GetMouseButton(MouseButtonLeft) && !EventSystem.current.IsPointerOverGameObject())
-            UpdateCellType();
+            UpdatePressedCellType();
 
         if (Input.GetMouseButton(MouseButtonRight) && !EventSystem.current.IsPointerOverGameObject())
-            ResetCellType();
+            ResetPressedCellType();
     }
 
     private GridCell GetCellOnMouse()
@@ -55,7 +58,7 @@ public class GridInputController : MonoBehaviour
         return gridExtension.GetCellInWorld(mousePosition);
     }
 
-    private void UpdateCellType()
+    private void UpdatePressedCellType()
     {
         ResetGrid();
         GridCell cell = GetCellOnMouse();
@@ -68,15 +71,17 @@ public class GridInputController : MonoBehaviour
         PathCell pathCell = cell.GetComponent<PathCell>();
 
         pathfindController.SetCellType(pathCell, toggleTypeHolder.cellType);
+        gridSavingController.SaveCell(pathCell);
     }
 
-    private void ResetCellType()
+    private void ResetPressedCellType()
     {
         ResetGrid();
         GridCell cell = GetCellOnMouse();
         PathCell pathCell = cell.GetComponent<PathCell>();
 
         pathfindController.SetCellType(pathCell, PathCell.CellType.Empty);
+        gridSavingController.SaveCell(pathCell);
     }
 
     private void ResetGrid()

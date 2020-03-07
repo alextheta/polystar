@@ -30,14 +30,6 @@ public class PathfindController : MonoBehaviour
         {PathCell.CellType.End, Color.cyan}
     };
 
-    public static Color GetCellColorByType(PathCell.CellType type)
-    {
-        if (cellColorMap.TryGetValue(type, out Color color))
-            return color;
-
-        return Color.red;
-    }
-
     private PathCell StartCell
     {
         set
@@ -56,6 +48,14 @@ public class PathfindController : MonoBehaviour
                 endCell.Type = PathCell.CellType.Empty;
             endCell = value;
         }
+    }
+    
+    public static Color GetCellColorByType(PathCell.CellType type)
+    {
+        if (cellColorMap.TryGetValue(type, out Color color))
+            return color;
+
+        return Color.red;
     }
 
     public void SetCellType(PathCell cell, PathCell.CellType type)
